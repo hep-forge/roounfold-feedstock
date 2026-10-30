@@ -28,3 +28,7 @@ libgcc_version:             # [linux]
   - 14.*
 libstdcxx_version:          # [linux]
   - 14.*
+
+# hep-forge ROOT is built for Python 3.12 only.
+python:
+  - 3.12
