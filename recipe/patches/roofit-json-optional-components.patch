@@ -1,0 +1,34 @@
+From 43a85c39ab0163a8b7435c52a6d4a93b307ff8d0 Mon Sep 17 00:00:00 2001
+Subject: [PATCH] Find the RooFit JSON library as an optional component
+
+ROOT 6.40 removed roofit/jsoninterface and folded libRooFitJSONInterface into
+libRooFitHS3, so a hard requirement on RooFitJSONInterface fails there with
+
+  ROOT component RooFitJSONInterface not found
+
+while a hard requirement on RooFitHS3 instead links the wrong library on 6.36
+and 6.38: libRooFitHS3 only depends on libRooFitJSONInterface there, and macOS
+does not resolve symbols transitively, so RooFitUnfold.o is left with undefined
+references to RooFit::Detail::JSONTree::create() and the JSONNode operator<<.
+
+Asking for both as OPTIONAL_COMPONENTS works on every version without a version
+test: ROOTConfig.cmake adds whichever it finds to ROOT_LIBRARIES and downgrades
+the missing one from FATAL_ERROR to a warning.
+---
+ CMakeLists.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a0d702c..3eea100 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -17,7 +17,8 @@ mark_as_advanced(VERSION_MAJOR VERSION_MINOR)
+ set(CMAKE_BUILD_TYPE Debug)
+ # set(CMAKE_BUILD_TYPE Release)
+ 
+-find_package( ROOT COMPONENTS Tree  Matrix Hist RIO MathCore Physics RooFitCore RooFit RooFitJSONInterface HistFactory Graf Postscript Gpad XMLParser)
++find_package( ROOT COMPONENTS Tree  Matrix Hist RIO MathCore Physics RooFitCore RooFit HistFactory Graf Postscript Gpad XMLParser
++              OPTIONAL_COMPONENTS RooFitJSONInterface RooFitHS3)
+ 
+ option (RooUnfoldGenerateCMakeConfig "generate a RooUnfoldConfig.cmake file for dependency tracking with other packages" OFF)
+ # See https://cmake.org/cmake/help/latest/policy/CMP0077.html
