@@ -9,11 +9,16 @@ Feedstock for [roounfold](https://gitlab.cern.ch/RooUnfold/RooUnfold) — part o
 Builds linux-amd64 + linux-arm64 in one matrix workflow and uploads to the
 [hep-forge](https://anaconda.org/hep-forge) Anaconda channel.
 
-Unfolding framework for ROOT
+Unfolding framework for ROOT (Bayes, SVD, TUnfold, IDS, GP, Poisson)
 
 ## Architectures
 
-State per architecture: see the platforms badge above or [anaconda.org/hep-forge/roounfold](https://anaconda.org/hep-forge/roounfold).
+| Architecture | Latest published |
+|--------------|------------------|
+| linux-amd64 (`linux-64`) | ✅ `3.1.0` |
+| linux-arm64 (`linux-aarch64`) | ✅ `3.1.0` |
+
+_As of the last feedstock render; the badges above are live._
 
 
 ## Install
